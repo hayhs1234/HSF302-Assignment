@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - StudyHub</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+
+<div class="login-container">
+    <div class="brand-header">
+        <div class="brand-logo">SH</div>
+        <h1 class="brand-title">Study<span>Hub</span></h1>
+        <p class="brand-subtitle">Hệ thống Quản lý Đề tài & Học tập</p>
+    </div>
+
+    <!-- Error Alert -->
+    <div th:if="${errorMessage}" class="alert alert-error" id="login-error-alert">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <span th:text="${errorMessage}">Tài khoản hoặc mật khẩu không chính xác!</span>
+    </div>
+
+    <!-- Logout Success Alert -->
+    <div th:if="${logoutMessage}" class="alert alert-success" id="login-logout-alert">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+        <span th:text="${logoutMessage}">Bạn đã đăng xuất thành công khỏi hệ thống.</span>
+    </div>
+
+    <form th:action="@{/login}" method="post" id="login-form">
+        <!-- Username input -->
+        <div class="form-group">
+            <label class="form-label" for="username-input">Tên đăng nhập hoặc Email</label>
+            <div class="input-wrapper">
+                <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <input
+                    type="text"
+                    id="username-input"
+                    name="username"
+                    class="form-control"
+                    placeholder="Nhập username (vd: admin, gv001, sv001)"
+                    required
+                    autofocus
+                >
+            </div>
+        </div>
+
+        <!-- Password input -->
+        <div class="form-group">
+            <label class="form-label" for="password-input">Mật khẩu</label>
+            <div class="input-wrapper">
+                <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <input
+                    type="password"
+                    id="password-input"
+                    name="password"
+                    class="form-control"
+                    placeholder="••••••••"
+                    required
+                >
+                <button type="button" class="toggle-password" id="toggle-password-btn" title="Hiện/Ẩn mật khẩu">
+                    <svg id="eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn-submit" id="btn-login-submit">
+            <span>Đăng nhập</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+        </button>
+    </form>
+
+    <!-- Demo Accounts Helper for Quick Testing -->
+    <div class="demo-accounts">
+        <div class="demo-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+            Tài khoản dùng thử (Click để điền nhanh)
+        </div>
+        <div class="demo-chips">
+            <button type="button" class="demo-chip" onclick="fillCredentials('admin', '123456')">
+                admin <span>(Admin)</span>
+            </button>
+            <button type="button" class="demo-chip" onclick="fillCredentials('gv001', '123456')">
+                gv001 <span>(Giảng viên)</span>
+            </button>
+            <button type="button" class="demo-chip" onclick="fillCredentials('sv001', '123456')">
+                sv001 <span>(Sinh viên)</span>
+            </button>
+        </div>
+        <p class="demo-hint">Mật khẩu mặc định: <strong>123456</strong></p>
+    </div>
+</div>
+
+<script>
+    function fillCredentials(username, password) {
+        document.getElementById('username-input').value = username;
+        document.getElementById('password-input').value = password;
+    }
+
+    const toggleBtn = document.getElementById('toggle-password-btn');
+    const passwordInput = document.getElementById('password-input');
+
+    if (toggleBtn && passwordInput) {
+        toggleBtn.addEventListener('click', function () {
+            const isPassword = passwordInput.getAttribute('type') === 'password';
+            passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+        });
+    }
+</script>
+
+</body>
+</html>

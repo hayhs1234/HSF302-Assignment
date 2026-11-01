@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng điều khiển - StudyHub</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <style>
+        .dashboard-container {
+            width: 100%;
+            max-width: 680px;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            padding: 36px;
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .dashboard-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 24px;
+        }
+
+        .user-greeting h2 {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .user-greeting p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .role-ADMIN {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .role-LECTURER {
+            background-color: #fef3c7;
+            color: #b45309;
+        }
+
+        .role-STUDENT {
+            background-color: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .info-card {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+        }
+
+        .info-card .label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .info-card .value {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-top: 4px;
+        }
+
+        .btn-logout {
+            background: #ef4444;
+            color: #ffffff;
+            border: none;
+            border-radius: var(--radius-md);
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-logout:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <div class="user-greeting">
+            <h2>Xin chào, <span th:text="${fullName != null ? fullName : username}">Người dùng</span>! 👋</h2>
+            <p>Chào mừng bạn đã đăng nhập thành công vào StudyHub.</p>
+        </div>
+        <span class="role-badge" th:classappend="'role-' + ${role}" th:text="${role}">ROLE</span>
+    </div>
+
+    <div class="info-grid">
+        <div class="info-card">
+            <div class="label">Tên tài khoản</div>
+            <div class="value" th:text="${username}">admin</div>
+        </div>
+        <div class="info-card">
+            <div class="label">Họ và tên</div>
+            <div class="value" th:text="${fullName}">Quản trị viên</div>
+        </div>
+        <div class="info-card">
+            <div class="label">Email</div>
+            <div class="value" th:text="${email}">user@school.edu.vn</div>
+        </div>
+        <div class="info-card">
+            <div class="label">Trạng thái</div>
+            <div class="value" style="color: #16a34a;">● Đang hoạt động</div>
+        </div>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end;">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn-logout" id="btn-logout">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                <span>Đăng xuất</span>
+            </button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
