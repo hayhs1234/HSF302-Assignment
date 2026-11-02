@@ -67,6 +67,26 @@ class AuthControllerTest {
     }
 
     @Test
+    @DisplayName("Truy cập trang /login hiển thị liên kết Đăng ký tài khoản sinh viên")
+    void testLoginPageHasRegisterLink() throws Exception {
+        mockMvc.perform(get("/login"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("login"))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("link-goto-register")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Đăng ký ngay")));
+    }
+
+    @Test
+    @DisplayName("Truy cập trang /login với tham số registered=true hiển thị thông báo đăng ký thành công")
+    void testLoginPageShowsRegisteredSuccessAlert() throws Exception {
+        mockMvc.perform(get("/login").param("registered", "true"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("login"))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("login-registered-alert")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Đăng ký tài khoản sinh viên thành công")));
+    }
+
+    @Test
     @DisplayName("Truy cập /dashboard khi chưa đăng nhập thì bị chuyển hướng về /login")
     void testDashboardRedirectsWhenUnauthenticated() throws Exception {
         mockMvc.perform(get("/dashboard"))
